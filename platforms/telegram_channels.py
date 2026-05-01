@@ -63,7 +63,6 @@ class TelegramChannelsAdapter(BasePlatformAdapter):
         chat_title = chat.get("title", channel)
 
         # Fetch last 50 messages via forwardable link (public channels only)
-        messages_url = f"https://api.telegram.org/bot{token}/getUpdates"
         # NOTE: getUpdates only returns messages sent TO the bot.
         # For channel scanning, you need either:
         #   a) Bot added as channel admin (receives channel_post updates)
@@ -79,23 +78,5 @@ class TelegramChannelsAdapter(BasePlatformAdapter):
     @staticmethod
     def _parse_job_message(msg: dict, channel: str, chat_title: str) -> dict | None:
         """Parse a Telegram message into a job dict."""
-        text = msg.get("text", "") or msg.get("caption", "")
-        if not text or not JOB_KEYWORDS.search(text):
-            return None
+        pass
 
-        msg_id  = msg.get("message_id", 0)
-        channel_clean = channel.lstrip("@")
-        url = f"https://t.me/{channel_clean}/{msg_id}"
-
-        # Extract company from first line heuristic
-        first_line = text.split("\n")[0][:80]
-
-        return {
-            "platform":    "Telegram",
-            "title":       first_line,
-            "company":     chat_title,
-            "url":         url,
-            "description": text[:1000],
-            "salary":      None,
-            "location":    None,
-        }

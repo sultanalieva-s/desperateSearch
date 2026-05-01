@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 from typing import Any
-from urllib.parse import urlencode, quote_plus
+from urllib.parse import quote_plus
 
 from platforms.base import BasePlatformAdapter
 

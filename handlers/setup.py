@@ -19,7 +19,6 @@ from typing import cast
 from telegram import (
     CallbackQuery,
     Document,
-    InlineKeyboardButton,
     InlineKeyboardMarkup,
     Message,
     Update,
