@@ -23,11 +23,15 @@ HEADERS  = {"User-Agent": "JobSearchBot/1.0 (your@email.com)"}   # HH requires U
 class HHAdapter(BasePlatformAdapter):
 
     async def search(self, position: str) -> list[dict[str, Any]]:
-        """Search HH.ru vacancies. Returns up to 20 results per call."""
+        """
+            Search HH.ru vacancies by job title. Returns up to 50 results per call.
+            Returns list of jobs. Job contains description that will be used for cover letter.
+        """
+
         params = {
             "text":       position,
             "area":       113,      # Russia; remove or change for other regions
-            "per_page":   20,
+            "per_page":   50,
             "order_by":   "publication_time",
         }
         async with httpx.AsyncClient(headers=HEADERS, timeout=15) as client:
