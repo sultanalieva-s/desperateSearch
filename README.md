@@ -1,4 +1,4 @@
-# JobSearch Bot 🤖
+# Desperate Job Search Bot
 
 A Telegram bot that automatically scans job platforms, generates tailored cover letters using Claude AI, and notifies you of new vacancies.
 
