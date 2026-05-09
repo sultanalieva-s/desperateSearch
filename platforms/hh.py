@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 class HHAdapter(BasePlatformAdapter):
     ACCESS_TOKEN: str
     BASE_URL = "https://api.hh.ru"
-    BASE_HEADERS = {"User-Agent": "desperateSearchBot/1.0 (saadatssu@gmail.com)"}
+    BASE_HEADERS = {"User-Agent": "desperatesearchbot/1.0 (saadatssu@gmail.com)"}
 
     async def search(self, position: str) -> list[dict[str, Any]]:
         """
@@ -25,8 +25,8 @@ class HHAdapter(BasePlatformAdapter):
             A job object contains description that will be used for cover letter generation.
         """
         headers = {
-            "User-Agent": "desperateSearchBot/1.0 (saadatssu@gmail.com)",
-            "HH-User-Agent": "desperateSearchBot/1.0 (saadatssu@gmail.com)",
+            "User-Agent": "desperatesearchbot/1.0 (saadatssu@gmail.com)",
+            "HH-User-Agent": "desperatesearchbot/1.0 (saadatssu@gmail.com)",
             "Authorization": f"Bearer {HHAdapter.ACCESS_TOKEN}",
         }
         vacancies_url = f"{self.BASE_URL}/vacancies"
@@ -95,7 +95,7 @@ class HHAdapter(BasePlatformAdapter):
             "code": code,
         }
         headers = {
-            "User-Agent": "desperateSearchBot/1.0 (saadatssu@gmail.com)",
+            "User-Agent": "desperatesearchbot/1.0 (saadatssu@gmail.com)",
             "Content-Type": "application/x-www-form-urlencoded",
         }
         async with httpx.AsyncClient(headers=headers, timeout=15) as client:
