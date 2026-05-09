@@ -1,7 +1,39 @@
-![img.png](img.png)
-# desperate search bot
+<p align="center">
+  <img src="./assets/poor_ant.jpg" width="350">
+</p>
 
-A telegram bot & agent that will help you with job searching so you won't be alone in this process.
+<h1 align="center">Desperate Search Bot</h1>
 
-# Functionalities (WIP)
-WIP
+<p align="center">
+  A Telegram bot and AI agent that helps you with job searching — so you do not have to go through the process alone.
+</p>
+
+---
+
+## Features (WIP)
+
+- Automated job search across multiple platforms
+- Resume-based vacancy matching
+- AI-powered application assistance
+- Telegram notifications
+- Vacancy filtering by preferences
+- Cover letter generation
+- Job tracking pipeline
+
+---
+
+## Tech Stack
+
+- Python
+- Telegram Bot API
+- FastAPI
+- AsyncIO
+- AI Agents
+- OAuth2
+- Docker
+
+---
+
+## Status
+
+This project is currently a work in progress.
