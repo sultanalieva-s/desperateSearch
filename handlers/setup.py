@@ -12,7 +12,9 @@ Flow:
 """
 from __future__ import annotations
 
+import asyncio
 import logging
+import time
 from pathlib import Path
 from typing import cast
 
@@ -31,15 +33,17 @@ from handlers.states import (
     BLACKLIST_INPUT, CONFIRM, CV_UPLOAD,
     PLATFORM_SELECT, POSITION_CUSTOM, POSITION_SELECT,
 )
+from platforms.hh import HHAdapter
 from utils.keyboards import (
     blacklist_kb, confirm_kb, cv_kb,
     platform_kb, position_kb,
 )
 from utils.storage import UserConfig, db
+from services.agent import chain
 
 log = logging.getLogger(__name__)
 
-PRESET_PLATFORMS = ["LinkedIn", "Telegram", "HH.ru", "Glassdoor", "Djinni"]
+PRESET_PLATFORMS = ["LinkedIn", "Telegram", "HH", "Glassdoor", "Djinni"]
 PRESET_POSITIONS = [
     "Middle Python Developer",
     "Senior Python Developer",
@@ -270,9 +274,28 @@ class SetupHandler:
             blacklist=cfg["blacklist"],
             active=True,
         )
+
         db.save_config(user_cfg)
 
-        #todo: start background agent
+
+        adapter = HHAdapter()
+        auth_url = adapter.get_auth_url()
+        await q.edit_message_text(
+            "🔐 <b>HH.ru authorization required</b>\n\n"
+            f'<a href="{auth_url}">Click here to log in to HH.ru</a>\n\n'
+            "Once you authorize, the agent will launch automatically.",
+            parse_mode=ParseMode.HTML,
+        )
+        await asyncio.sleep(1)
+
+        agent_input = {
+            "cv": user_cfg.cv_path,
+            "job_title": "Middle Python Developer",
+            "platforms": cfg["platforms"],
+            "preferences": None
+        }
+        log.info(f"Calling agent with input: {agent_input}")
+        await chain.ainvoke(agent_input)
 
         await q.edit_message_text(
             "✅ <b>Agent launched!</b>\n\n"

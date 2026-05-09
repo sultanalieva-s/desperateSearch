@@ -21,7 +21,7 @@ class Settings:
     # ── Optional platform credentials ────────────────────────────────────────
     HH_CLIENT_ID: str     = os.getenv("HH_CLIENT_ID", "")
     HH_CLIENT_SECRET: str = os.getenv("HH_CLIENT_SECRET", "")
-    HH_ACCESS_TOKEN: str  = os.getenv("HH_ACCESS_TOKEN", "")   # OAuth2 bearer
+    HH_REDIRECT_URI: str = os.getenv("HH_REDIRECT_URI", "")
 
     LINKEDIN_EMAIL: str    = os.getenv("LINKEDIN_EMAIL", "")
     LINKEDIN_PASSWORD: str = os.getenv("LINKEDIN_PASSWORD", "")

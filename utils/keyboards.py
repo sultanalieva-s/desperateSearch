@@ -1,6 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-PRESET_PLATFORMS = ["LinkedIn", "Telegram", "HH.ru", "Glassdoor", "Djinni"]
+PRESET_PLATFORMS = ["LinkedIn", "Telegram", "HH", "Glassdoor", "Djinni"]
 PRESET_POSITIONS = [
     "Middle Python Developer",
     "Senior Python Developer",

@@ -9,39 +9,72 @@ from platforms.djinni import DjinniAdapter
 from platforms.telegram_channels import TelegramChannelsAdapter
 from platforms.hh import HHAdapter
 from platforms.glassdoor import GlassdoorAdapter
+from langchain_core.messages import AIMessage
 
 claude_sonnet = init_chat_model("anthropic:claude-sonnet-4-5-20250929", temperature=0)
 
 platforms_map = {
-    "hh": HHAdapter,
-    "linkedin": LinkedInAdapter,
-    "djinni": DjinniAdapter,
-    "telegram": TelegramChannelsAdapter,
-    "glassdoor": GlassdoorAdapter,
+    "HH": HHAdapter,
+    "LinkedIn": LinkedInAdapter,
+    "Djinni": DjinniAdapter,
+    "Telegram": TelegramChannelsAdapter,
+    "Glassdoor": GlassdoorAdapter,
 }
 
-async def scrape_node(state: State) -> dict:
+async def scrape(state: State) -> dict:
     """
     Scrapes jobs on provided platforms (LinkedIn, Telegram, HH, Djinni).
     """
-    platforms: list[str] = state.platforms
+    platforms: list[str] = state["platforms"]
     jobs: list[dict[str, Any]] = []
 
     for platform in platforms:
         adapter = platforms_map.get(platform)()
-        jobs.extend(await adapter.search(state.job_title))
+        async with adapter as adapter_manager:
+            jobs.extend(await adapter_manager.search(state["job_title"]))
     return {"jobs": jobs}
 
-# call llm -> get cover letter
-def write_cover_letter_node(state: State) -> str:
+# call llm -> get cover letter -> update state
+async def generate_cover_letter(state: State) -> dict:
     """
     Generates a cover letter based on CV and job description.
     """
-    pass
+    cv: str = state["cv"]
+    from prompts.cover_letter_prompt import COVER_LETTER_PROMPT
+    jobs = state["jobs"]
 
+    for job in jobs:
+        prompt_with_input = COVER_LETTER_PROMPT.format(cv=cv, job=job)
+        model_response: AIMessage = await claude_sonnet.ainvoke(prompt_with_input)
+        job["cover_letter"] = model_response.content
 
-def apply_node(State):
-    pass
+    return {"jobs": jobs}
 
+async def apply(state: State):
+    """
+    1. submit on hh job
+    2. submit on linkedin job
+
+    3. submit a form on a website
+    4. write hr in telegram
+    5. write email
+    """
+    print(f"jobs: {state["jobs"]}")
+    for job in state["jobs"]:
+        print(f"job: {job["description"]}")
+        print(f"cover letter: {job["cover_letter"]}")
 
 workflow = StateGraph(State, input_schema=InputState)
+
+workflow.add_node("scrape", scrape)
+workflow.add_node("generate_cover_letter", generate_cover_letter)
+workflow.add_node("apply", apply)
+
+workflow.add_edge(START, "scrape")
+workflow.add_edge("scrape", "generate_cover_letter")
+workflow.add_edge("generate_cover_letter", "apply")
+workflow.add_edge("apply", END)
+
+chain = workflow.compile()
+
+__all__ = ["chain"]

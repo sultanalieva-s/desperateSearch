@@ -5,7 +5,7 @@ class InputState(TypedDict):
     cv: str
     job_title: str            # CV/resume text
     platforms: list[str]
-    preferences: dict         # e.g. {"min_salary": 80000, "skip_if": ["contractor"]}
+    preferences: dict | None         # e.g. {"min_salary": 80000, "skip_if": ["contractor"]}
 
 
 class Configuration(TypedDict):
