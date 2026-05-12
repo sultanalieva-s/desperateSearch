@@ -24,13 +24,15 @@
 
 ## Tech Stack
 
-- Python
+- Python3
 - Telegram Bot API
 - FastAPI
 - AsyncIO
-- AI Agents
+- Langgraph
+- Langchain
 - OAuth2
-- Docker
+- uv
+
 
 ---
 

@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import time
 from pathlib import Path
 from typing import cast
 
@@ -29,17 +28,17 @@ from telegram.constants import ParseMode
 from telegram.ext import ContextTypes, ConversationHandler
 
 from config import settings
-from handlers.states import (
+from bot.handlers.states import (
     BLACKLIST_INPUT, CONFIRM, CV_UPLOAD,
     PLATFORM_SELECT, POSITION_CUSTOM, POSITION_SELECT,
 )
 from platforms.hh import HHAdapter
-from utils.keyboards import (
+from bot.bot import (
     blacklist_kb, confirm_kb, cv_kb,
     platform_kb, position_kb,
 )
-from utils.storage import UserConfig, db
-from services.agent import chain
+from bot.bot import UserConfig, db
+from agent.agent import chain
 
 log = logging.getLogger(__name__)
 

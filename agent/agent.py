@@ -3,7 +3,7 @@ from typing import Any
 from langchain.chat_models import init_chat_model
 from langgraph.graph import StateGraph, START, END
 
-from schemas.agent_schemas import State, InputState
+from agent.schemas.agent_schemas import State, InputState
 from platforms.linkedin import LinkedInAdapter
 from platforms.djinni import DjinniAdapter
 from platforms.telegram_channels import TelegramChannelsAdapter
@@ -40,7 +40,7 @@ async def generate_cover_letter(state: State) -> dict:
     Generates a cover letter based on CV and job description.
     """
     cv: str = state["cv"]
-    from prompts.cover_letter_prompt import COVER_LETTER_PROMPT
+    from agent.prompts.cover_letter_prompt import COVER_LETTER_PROMPT
     jobs = state["jobs"]
 
     for job in jobs:
