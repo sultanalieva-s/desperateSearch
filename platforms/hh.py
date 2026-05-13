@@ -7,7 +7,7 @@ from typing import Any
 import httpx
 from aiohttp import web
 
-from config import settings
+from bot.config import settings
 from platforms.base import BasePlatformAdapter
 
 log = logging.getLogger(__name__)

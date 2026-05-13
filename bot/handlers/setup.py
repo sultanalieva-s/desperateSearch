@@ -28,17 +28,18 @@ from telegram.constants import ParseMode
 from telegram.ext import ContextTypes, ConversationHandler
 
 from config import settings
-from bot.handlers.states import (
+from handlers.states import (
     BLACKLIST_INPUT, CONFIRM, CV_UPLOAD,
     PLATFORM_SELECT, POSITION_CUSTOM, POSITION_SELECT,
 )
 from platforms.hh import HHAdapter
-from bot.bot import (
+from utils.keyboards import (
     blacklist_kb, confirm_kb, cv_kb,
     platform_kb, position_kb,
 )
-from bot.bot import UserConfig, db
 from agent.agent import chain
+from database import db
+
 
 log = logging.getLogger(__name__)
 

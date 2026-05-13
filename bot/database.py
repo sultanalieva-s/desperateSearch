@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from config import settings
+from bot.config import settings
 
 log = logging.getLogger(__name__)
 

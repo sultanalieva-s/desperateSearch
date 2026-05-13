@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
-from bot.bot import db
+from database import db
 
 log = logging.getLogger(__name__)
 

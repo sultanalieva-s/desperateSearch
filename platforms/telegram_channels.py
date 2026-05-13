@@ -11,7 +11,7 @@ import logging
 import re
 from typing import Any
 
-from config import settings
+from bot.config import settings
 from platforms.base import BasePlatformAdapter
 
 log = logging.getLogger(__name__)
